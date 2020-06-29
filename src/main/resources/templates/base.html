@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)"> <!--title,links-->
+    <meta charset="UTF-8">
+    <title th:replace="${title}">HTML шаблон</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/jquery-ui/jquery-ui.css">
+    <!--подключение css файлов из папки static-->
+    <link rel="stylesheet" href="/css/style.css"/>
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/webjars/jquery-ui/jquery-ui.js"></script>
+
+    <!--css для каждой страницы-->
+    <!--    <th:block th:replace="${links}"></th:block>-->
+</head>
+<body>
+
+</body>
+</html>

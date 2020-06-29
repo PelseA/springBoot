@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>'My Jira' - помогатор личных проектов</title>
+</head>
+<body>
+    <div th:replace="fragments/header :: content"></div>
+    <main>
+        Это домашняя страница 'My Jira' - помогатора личных проектов
+    </main>
+
+    <div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>
