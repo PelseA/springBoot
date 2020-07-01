@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+</head>
+<body>
+<div th:replace="fragments/header :: content"></div>
+<main>
+    <h3>Личный кабинет</h3>
+    <a href="/project/create">Создать новый проект</a>
+    <div th:replace="project/projectList :: content"></div>
+</main>
+
+<div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>

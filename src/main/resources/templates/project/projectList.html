@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <h3>Мои проекты</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Описание проекта</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${projects != null}" th:each="project : ${projects}">
+                <a href="/project/${project.id}">
+                    <th scope="row" th:text="${project.title}"></th>
+                    <td th:text="${project.description}"></td>
+                </a>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

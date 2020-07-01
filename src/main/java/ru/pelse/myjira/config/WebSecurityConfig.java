@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.pelse.myjira.service.UserService;
 
 @Configuration
@@ -21,10 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-    @Autowired BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
-    public BCryptPasswordEncoder getPasswordEncoder() {
+    PasswordEncoder getPasswordEncoder()
+    {
         return new BCryptPasswordEncoder(8);//параметр ключа шифрования
     }
 
@@ -38,17 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .permitAll()
+                .defaultSuccessUrl("/profile").failureUrl("/login?error").permitAll()
                 .and()
-                .logout().permitAll()
-                .logoutSuccessUrl("/");
+                .logout().logoutSuccessUrl("/").permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                //.passwordEncoder(passwordEncoder);
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .passwordEncoder(passwordEncoder);
+//                .passwordEncoder(NoOpPasswordEncoder.getInstance());
 
     }
 

@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     // дата начала события будет приходить строкой
     // @DateTimeFormat - в каком виде будет дата
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "MM/dd/yyyy") //yyyy-MM-dd
     private LocalDate birth;
 
     private String phone;

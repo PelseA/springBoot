@@ -35,6 +35,17 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Subscriber> subscribers = new ArrayList<>();
 
+    public Project() {
+    }
+
+    public Project(@NotBlank(message = "Добавьте название проекта") String title,
+                   @NotBlank(message = "Добавьте описание проекта") @Length(max = 2048, message = "Описание слишком длинное, допустимо до 1000 символов") String description,
+                   User user) {
+        this.title = title;
+        this.description = description;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }

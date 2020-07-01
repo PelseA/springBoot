@@ -1,6 +1,7 @@
 package ru.pelse.myjira.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,16 +29,21 @@ public class UserService implements UserDetailsService {
     private MailSender mailSender;
 
     @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email);
     }
 
-    public boolean addUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findByUsername(username);
+//    }
 
+    public boolean addUser(User user) {
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+//        User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
             return false; //проверка в RegistrationController на false
         }
@@ -46,9 +52,8 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
         user.setActivationCode(UUID.randomUUID().toString());
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPassword(user.getPassword());
-        //добавила остальные поля
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(user.getPassword());
         user.setEmail(user.getEmail());
         user.setUsername(user.getUsername());
         user.setSurname(user.getSurname());

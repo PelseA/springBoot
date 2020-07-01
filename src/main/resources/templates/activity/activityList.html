@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+
+    <h3>Действия в проекте</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Редактировать</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${activities != null}" th:each="activity : ${activities}">
+            <a href="/activity/${activity.id}">
+                <th scope="row" th:text="${activity.title}"></th>
+                <td th:text="${activity.description}"></td>
+                <td th:text="${activity.dateCreate}"></td>
+                <td><a href="/editActivity/${activity.id}">Редактировать</a></td>
+            </a>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
