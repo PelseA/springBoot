@@ -15,7 +15,7 @@ public class Image {
 
     @ManyToOne
     @JoinColumn
-    private AffairCourse affairCourse;
+    private Activity activity;
 
     public int getId() {
         return id;
@@ -33,11 +33,11 @@ public class Image {
         this.path = path;
     }
 
-    public AffairCourse getAffairCourse() {
-        return affairCourse;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setAffairCourse(AffairCourse affairCourse) {
-        this.affairCourse = affairCourse;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }

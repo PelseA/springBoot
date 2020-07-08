@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">Название</th>
+            <th scope="col" class="text-center">Описание</th>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Сделать запись</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${tasks != null}" th:each="task : ${tasks}">
+            <td scope="row"><a th:href="@{'/task/'+ ${task.id}}" th:text="${task.title}"></a></td>
+            <td><a th:href="@{'/task/'+ ${task.id}}" th:text="${task.description}"></a></td>
+            <td><a th:href="@{'/task/'+ ${task.id}}" th:text="${task.dateCreate}"></a></td>
+            <td><a th:href="@{'/task/'+ ${task.id}}">Выбрать</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

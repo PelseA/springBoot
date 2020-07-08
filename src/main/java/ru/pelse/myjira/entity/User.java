@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     @Email(message = "Проверьте правильность e-mail")
     @NotEmpty(message = "Обязательная информация: укажите e-mail")
-    private String email;
+    private String username;  //уникальным значением будет email
 
     @Column(nullable = false)
     @NotBlank(message = "Придумайте пароль")
@@ -44,9 +44,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @NotEmpty(message = "Обязательная информация: Ваше имя")
-    private String username;
+    private String firstname;
 
-    private String surname;
+    private String lastname;
 
     // дата начала события будет приходить строкой
     // @DateTimeFormat - в каком виде будет дата
@@ -83,14 +83,6 @@ public class User implements UserDetails {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setMail(String mail) {
-        this.email = mail;
     }
 
     @Override
@@ -131,16 +123,20 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getSurname() {
-        return surname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public LocalDate getBirth() {

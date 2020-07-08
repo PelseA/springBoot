@@ -17,7 +17,7 @@ public class State {
     private String value;
 
     @OneToMany(mappedBy = "state")
-    private List<AffairCourse> affairCourses = new ArrayList<>();
+    private List<Activity> activities = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -35,11 +35,11 @@ public class State {
         this.value = value;
     }
 
-    public List<AffairCourse> getAffairCourses() {
-        return affairCourses;
+    public List<Activity> getActivities() {
+        return activities;
     }
 
-    public void setAffairCourses(List<AffairCourse> affairCourses) {
-        this.affairCourses = affairCourses;
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
     }
 }

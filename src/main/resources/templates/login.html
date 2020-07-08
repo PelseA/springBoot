@@ -6,24 +6,33 @@
 </head>
 <body>
 <div th:replace="fragments/header :: content"></div>
-<main>
-    <form action="/login" method="post">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Ваш email: </label>
-            <div class="col-sm-6">
-                <input type="email" required class="form-control" name="email" />
-<!--                <input type="text" required class="form-control" name="username" />-->
+<main class="ph-centre">
+    <div th:if="${param.error}">
+        Неверный email или пароль.
+    </div>
+    <div th:if="${afterConfirm}">
+        <p th:text="@{${afterConfirm}}"></p>
+    </div>
+    <div class="ph-centre">
+        <form action="/login" method="post">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Ваш email: </label>
+                <div class="col-sm-6">
+                    <input type="text" required class="form-control" name="username"/>
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Пароль: </label>
-            <div class="col-sm-6">
-                <input type="password" required class="form-control" name="password" placeholder="Пароль"/>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Пароль: </label>
+                <div class="col-sm-6">
+                    <input type="password" required class="form-control" name="password" placeholder="Пароль"/>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </div>
+        </form>
+    </div>
 </main>
 
 <div th:replace="fragments/footer :: content"></div>

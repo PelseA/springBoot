@@ -4,21 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.pelse.myjira.entity.Project;
+import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.entity.User;
 import ru.pelse.myjira.repository.ProjectRepository;
+import ru.pelse.myjira.repository.TaskRepository;
+import ru.pelse.myjira.service.NoEntityException;
+import ru.pelse.myjira.service.ProjectService;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private TaskRepository taskRepository;
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping("/create")
     public String addProject(Model model) {
@@ -39,17 +44,48 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public String project(@RequestParam String id, Model model) {
-        Optional<Project> optionalProject = projectRepository.findById(Integer.valueOf(id));
-        if (!optionalProject.isPresent()) {
-            model.addAttribute("noProject", "Такого проекта нет");
-            model.addAttribute("title", "Ошибка");
-        } else {
-            Project project = optionalProject.get();
+    public String project(@PathVariable("id") String id, Model model) {
+        ArrayList<Task> tasks = (ArrayList) taskRepository.findByProjectId(Integer.parseInt(id));
+        try {
+            Project project = projectService.getProjectById(id);
             model.addAttribute("project", project);
+            model.addAttribute("tasks", tasks);
             model.addAttribute("title", project.getTitle());
+            return "project/project";
+        } catch (NoEntityException e) {
+            model.addAttribute("errorText", "Проект не найден");
+            e.printStackTrace();
+            return "error";
         }
-        return "project/project";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProject(@PathVariable("id") String id, Model model) {
+        try {
+            Project project = projectService.getProjectById(id);
+            model.addAttribute("project", project);
+            model.addAttribute("titleName", project.getTitle());
+            return "project/edit";
+        } catch (NoEntityException e) {
+            model.addAttribute("errorText", "Проект для редактирования не найден");
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProject(@PathVariable("id") String id,
+                              @RequestParam String title,
+                              @RequestParam String description,
+                              Model model) {
+        try {
+            Project savedProject = projectService.editProject(id, title, description);
+            return project(String.valueOf(savedProject.getId()), model);
+        } catch (NoEntityException e) {
+            e.printStackTrace();
+            model.addAttribute("errorText", "Не удалось редактировать проект");
+            return "error";
+        }
     }
 
 }

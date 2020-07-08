@@ -4,12 +4,52 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="base :: head(~{::title})">
     <meta charset="UTF-8">
-    <title>'My Jira' - помогатор личных проектов</title>
+    <title>'My Helper' - помогатор личных проектов</title>
 </head>
 <body>
     <div th:replace="fragments/header :: content"></div>
     <main>
-        Это домашняя страница 'My Jira' - помогатора личных проектов
+        <div class="ph-for-slider row bg-dark">
+            <div class="ph-span-slider col-md-4">
+                <span class="text-light">   Сколько вам нужно времени, чтобы совершить то, что давно планировали? Не важно. Потому что его может не хватить, если не начать. </span>
+
+            </div>
+            <div class="ph-slider col-md-8">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-80 active item-img" src="/img/slider/1.jpg" alt="Первый слайд">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Текст</h3>
+                                <p>Текст.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-80 item-img" src="/img/slider/2.jpg" alt="Второй слайд">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Текст</h3>
+                                <p>Текст.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-80 item-img" src="/img/slider/3.jpeg" alt="Третий слайд">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Текст</h3>
+                                <p>Текст.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </main>
 
     <div th:replace="fragments/footer :: content"></div>

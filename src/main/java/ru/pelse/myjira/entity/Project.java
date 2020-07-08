@@ -30,7 +30,7 @@ public class Project {
     private User user;
 
     @OneToMany(mappedBy = "project")
-    private List<Activity> activities = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
 
     @OneToMany(mappedBy = "project")
     private List<Subscriber> subscribers = new ArrayList<>();
@@ -86,11 +86,11 @@ public class Project {
         this.subscribers = users;
     }
 
-    public List<Activity> getActivities() {
-        return activities;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -3,10 +3,8 @@ INSERT INTO public.role(id, role)
 	(1, 'ROLE_USER'),
 	(2, 'ROLE_ADMIN');
 
-INSERT INTO public.usr(id, active, email, password, surname, username)
+INSERT INTO public.state(id, value)
     VALUES
-    (1, false, 'sgha@ghh.ru', '12345', 'Пупкин', 'Женя');
-
-INSERT INTO public.usr_roles(users_id, roles_id)
-    VALUES
-    (1, 1);
+    (1, 'right'),
+    (2, 'wrong'),
+    (3, 'alternative');

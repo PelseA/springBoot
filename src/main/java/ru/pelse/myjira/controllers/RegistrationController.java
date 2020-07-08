@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.pelse.myjira.entity.User;
 import ru.pelse.myjira.service.UserService;
 
@@ -16,19 +17,27 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute("title", "Регистрация в 'MyJira'");
+        model.addAttribute("title", "Регистрация в 'Pelse-helper'");
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
+    public String addUser(@RequestParam String password,
+                          @RequestParam String password2,
+                          User user,
+                          Model model) {
+        if (!password.equals(password2)) {
+            model.addAttribute("mismatch", "Пароли не совпадают");
+            model.addAttribute("user", user);
+            return "registration";
+        }
         //если не смогли добавить пользователя => пользователь существует
         if (!userService.addUser(user)) {
             model.addAttribute("userExists", "Этот email уже зарегистрирован");
             return "registration";
         }
 
-        return "redirect:/login";
+        return "redirect:/confirm";
     }
 
     //пользователь подтверждает регистрацию переходя по ссылке из письма
@@ -38,12 +47,17 @@ public class RegistrationController {
         boolean isActivated = userService.activateUser(code);
 
         if (isActivated) {
-            model.addAttribute("afterActivation", "Спасибо, что подтвердили регистрацию! Авторизуйтесь с вашими именем и паролем.");
+            model.addAttribute("afterConfirm", "Спасибо, что подтвердили регистрацию! Авторизуйтесь с вашими именем и паролем.");
         } else {
-            model.addAttribute("afterActivation", "Этот электронный адрес уже подтвердил регистрацию");
+            model.addAttribute("afterConfirm", "Неверный код активации");
         }
 
         return "login";
+    }
+
+    @GetMapping("/confirm")
+    public String confirmRegistration() {
+        return "confirmRegistration";
     }
 
 }

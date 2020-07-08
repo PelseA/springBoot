@@ -1,20 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="content">
-    <h3>Мои проекты</h3>
-    <table class="table table-striped">
+    <h4 class="text-center pt-3 pt-3">Мои проекты</h4>
+    <table class="table table-striped mt-2">
         <thead>
         <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Описание проекта</th>
+            <th scope="col" class="text-center">Название</th>
+            <th scope="col" class="text-center">Описание проекта</th>
+            <th scope="col">Подробнее</th>
         </tr>
         </thead>
         <tbody>
             <tr th:if="${projects != null}" th:each="project : ${projects}">
-                <a href="/project/${project.id}">
-                    <th scope="row" th:text="${project.title}"></th>
-                    <td th:text="${project.description}"></td>
-                </a>
+                <td scope="row"><a th:href="@{'/project/' + ${project.id}}" th:text="${project.title}"></a></td>
+                <td><a th:href="@{'/project/' + ${project.id}}" th:text="${project.description}"></a></td>
+                <td><a th:href="@{'/project/' + ${project.id}}">Открыть</a></td>
             </tr>
         </tbody>
     </table>

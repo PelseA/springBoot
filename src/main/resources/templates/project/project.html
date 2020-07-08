@@ -2,23 +2,37 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="base :: head(~{::title})">
     <meta charset="UTF-8">
-    <title>Новый </title>
+    <title th:text="@{${titleName}}"></title>
 </head>
 <body>
 <div th:replace="fragments/header :: content"></div>
-<main>
-    <p th:if="${noProject != null}" th:text="${noProject}"></p>
+<main class="ph-centre">
     <div th:if="${project != null}">
-        <p>
-            <b th:text="${project.title}"></b>
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <i>Показать описание проекта</i>
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body" th:text="${project.description}"></div>
+        <div class="container mb-3">
+            <div class="row">
+                <div class="col">
+                    <div th:text="${project.title}"></div>
+                </div>
+                <div class="col">
+                    <div>
+                        <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <i>Показать описание проекта</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-auto">
+                    <div><a th:href="@{'/project/edit/' + ${project.id}}">Редактировать</a></div>
+                </div>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body" th:text="${project.description}"></div>
+            </div>
         </div>
-        <div th:replace="activity/activityList :: content"></div>
+
+        <div th:replace="task/taskList :: content"></div>
+        <div>
+            <a class="btn btn-info" th:href="@{'/task/create/' + ${project.id}}">Добавить задачу</a>
+        </div>
     </div>
 </main>
 

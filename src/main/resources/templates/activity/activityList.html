@@ -2,23 +2,30 @@
 <body>
 <div th:fragment="content">
 
-    <h3>Действия в проекте</h3>
+    <h3 class="text-center pb-3" th:text="@{'Текущие действия в задаче ' + ${task.title}}"></h3>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Описание</th>
             <th scope="col">Дата создания</th>
-            <th scope="col">Редактировать</th>
+            <th scope="col">Действие</th>
+            <th scope="col">Текущий результат</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Сделать запись</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${activities != null}" th:each="activity : ${activities}">
+        <tr th:if="${activity != null}" th:each="activity : ${activities}">
             <a href="/activity/${activity.id}">
-                <th scope="row" th:text="${activity.title}"></th>
-                <td th:text="${activity.description}"></td>
-                <td th:text="${activity.dateCreate}"></td>
-                <td><a href="/editActivity/${activity.id}">Редактировать</a></td>
+                <td scope="row" th:text="${activity.date}"></td>
+                <td th:text="${activity.action}"></td>
+                <td th:text="${activity.currentResult}"></td>
+
+                <th th:switch="${activity.state.value}">
+                    <p th:case="'alternative'" class="text-center ph-alternative">Альтернативно</p>
+                    <p th:case="'wrong'" class="text-center ph-wrong">Не годится</p>
+                    <p th:case="'right'" class="text-center ph-right">Отличное решение</p>
+                </th>
+                <td><a th:href="@{'/activity/'+ ${activity.id}}">Редактировать</a></td>
             </a>
         </tr>
         </tbody>

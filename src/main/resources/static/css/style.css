@@ -1,3 +1,60 @@
-body {
+.ph-inline {
+    display: inline-block;
+    margin-left: 1rem;
+    width: 30%;
+}
+
+.ph-logo {
+    width: 13rem;
+    height: 6rem;
+}
+
+.ph-centre {
+    width: 86%;
+    margin: auto;
+}
+
+.ph-alternative {
+    background: #ffc600;
+    opacity: 0.8;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0 0.3rem 0;
+}
+
+.ph-wrong {
+    background: #ff4f00;
+    opacity: 0.8;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0 0.3rem 0;
+}
+
+.ph-right {
+    background: #03c04a;
+    opacity: 0.8;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0 0.3rem 0;
+}
+
+.ph-for-slider {
+    margin-bottom: 2rem;
+}
+
+.ph-span-slider {
+    padding: 2rem;
+    font-family: "Gill Sans", sans-serif;
+    font-size: 18pt;
+}
+
+.ph-slider {
+    padding: 2rem;
+}
+
+.item-img {
+    width: 600px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
     margin: 0 auto;
 }

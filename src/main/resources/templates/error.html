@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Ошибка</title>
+</head>
+<body>
+<div th:replace="fragments/header :: content"></div>
+<main class="ph-centre">
+    <span th:text="${errorText}"></span>
+</main>
+
+<div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>

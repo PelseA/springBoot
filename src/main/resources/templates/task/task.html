@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title th:text="@{'Действия в ' + ${task.title}}"></title>
+</head>
+<body>
+<div th:replace="fragments/header :: content"></div>
+<main class="ph-centre">
+<!--    todo добавить справа "на страницу проекта" -->
+    <h4 th:if="${taskTitle != null}" th:text="@{'Действия в задаче ' + ${task.title}}"></h4>
+    <div th:if="${!activities.empty}" th:replace="activity/activityList :: content"></div>
+
+    <div th:if="${activities.empty}">
+        <a class="btn btn-info" th:href="@{'/activity/create/' + ${task.id}}">Начать заполнение</a>
+    </div>
+
+    <div th:if="${!activities.empty}">
+        <a class="btn btn-info" th:href="@{'/activity/create/' + ${task.id}}">Добавить действие</a>
+    </div>
+
+    <h4 class="text-center pt-3 pb-3" th:text="@{'Все задачи в проекте ' + ${project.title}}"></h4>
+    <div th:replace="task/taskList :: content"></div>
+</main>
+
+<div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>

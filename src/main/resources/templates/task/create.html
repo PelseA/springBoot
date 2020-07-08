@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title th:text="@{${project.title}}"></title>
+</head>
+<body>
+<div th:replace="fragments/header :: content"></div>
+<main class="ph-centre container">
+    <div class="justify-content-center">
+        <h3 th:text="@{'Задача в проекте ' + ${project.title}}" class="text-center pb-3"></h3>
+        <div>
+            <form action="/task/create" method="post">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Название задачи</label>
+                    <div class="col-sm-6">
+                        <!--                <input type="email" required class="form-control" name="email" />-->
+                        <input type="text" required class="form-control" name="title"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Описание задачи</label>
+                    <div class="col-sm-6">
+                        <textarea required class="form-control" name="description"
+                                  placeholder="Описание действия"></textarea>
+                    </div>
+                </div>
+                <input name="projectId" type="hidden" th:value="${project.id}"/>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Создать задачу</button>
+                </div>
+        </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>

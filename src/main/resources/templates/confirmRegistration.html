@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Подтвердите регистрацию</title>
+</head>
+<body>
+<div th:replace="fragments/header :: content"></div>
+<main class="ph-centre">
+    <span>
+        Спасибо за регистрацию!
+        Проверьте электронную почту:
+        подтвердите регистрацию, перейдя по ссылке.
+    </span>
+</main>
+
+<div th:replace="fragments/footer :: content"></div>
+
+</body>
+</html>
