@@ -8,7 +8,7 @@
 <div th:replace="fragments/header :: content"></div>
 <main class="ph-centre container">
     <div class="justify-content-center">
-        <h3 th:text="@{'Задача в проекте ' + ${project.title}}" class="text-center pb-3"></h3>
+        <h3 th:text="@{'Задача в проекте ' + ${project.title}}" class="text-center pt-3 pb-3"></h3>
         <div>
             <form action="/task/create" method="post">
                 <div class="form-group row">

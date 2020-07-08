@@ -2,9 +2,12 @@ package ru.pelse.myjira.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,9 @@ public class Project {
     @Length(max = 2048, message = "Описание слишком длинное, допустимо до 1000 символов")
     @Column(nullable = false, length = 2048)
     private String description;
+
+    private LocalDate start;
+    private LocalDate deadline;
 
     //несколько проектов у одного пользователя
     @ManyToOne
@@ -70,6 +76,15 @@ public class Project {
         this.description = description;
     }
 
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
     public User getUser() {
         return user;
     }
@@ -92,5 +107,13 @@ public class Project {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDate start) {
+        this.start = start;
     }
 }
