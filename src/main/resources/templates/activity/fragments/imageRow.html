@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+
+<!--    <div class="row">-->
+        <div th:if="${activity != null}" class="ph-image-set row">
+            <img  th:each="image : ${activity.images}" th:src="@{'/uploads/' + ${image.path}}" alt="image">
+        </div>
+<!--    </div>-->
+
+</div>
+</body>
+</html>

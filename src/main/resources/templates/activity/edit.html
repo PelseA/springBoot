@@ -7,19 +7,25 @@
 <body>
 <div th:replace="fragments/header :: content"></div>
 <main class="ph-centre">
-    <h3 class="text-center mb-3 pt-3" th:text="@{'Действие в задаче ' + ${task.title}}"></h3>
+    <h3 class="text-center pt-3 mb-2">Редактирование действия</h3>
     <div class="ph-centre">
-        <form action="/activity/create" method="post" enctype="multipart/form-data">
+        <form th:if="${activity != null}" th:action="@{'/activity/edit/' + ${activity.id}}" method="post" enctype="multipart/form-data">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Что сделано</label>
                 <div class="col-sm-6">
-                    <textarea required class="form-control" name="action"></textarea>
+                    <textarea required class="form-control" name="action" th:text="${activity.action}"></textarea>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Текущий результат</label>
                 <div class="col-sm-6">
-                    <textarea required class="form-control" name="currentResult"></textarea>
+                    <textarea required class="form-control" name="currentResult" th:text="${activity.currentResult}"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ph-image-set" th:each="image : ${activity.images}">
+<!--   todo удалить изображение         -->
+                    <img  th:src="@{'/uploads/' + ${image.path}}" alt="image">
                 </div>
             </div>
             <div class="form-group row">
@@ -43,7 +49,7 @@
                     </select>
                 </div>
             </div>
-            <input name="taskId" type="hidden" th:value="${task.id}"/>
+<!--            <input name="taskId" type="hidden" th:value="${task.id}"/>-->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>

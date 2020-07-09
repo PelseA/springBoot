@@ -29,11 +29,7 @@
             </div>
         </div>
 
-        <div class="mt-3 mb-2 ph-days">
-            <div th:if="${days != null}" th:each="day : ${days}">
-                <div class="ph-day"><span class="ph-span-day" th:text="${day}"></span></div>
-            </div>
-        </div>
+        <div th:replace="project/fragments/days :: content"></div>
 
         <div th:replace="task/taskList :: content"></div>
         <div>

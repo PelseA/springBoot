@@ -7,18 +7,42 @@
 <body>
 <div th:replace="fragments/header :: content"></div>
 <main class="ph-centre">
-    <div th:if="${activity != null}">
-        <div class="row text-center text-md-left mt-3">
-            <div th:text="${activity.date}"></div>
-            <div th:text="${activity.action}"></div>
-            <div th:text="${activity.current_result}"></div>
-            <div th:text="${activity.state.value}"></div>
-            <div><a th:href="@{'/activity/edit/' + ${activity.id}}">Редактирвать</a></div>
-        </div>
-
-        <div th:replace="activity/activityList :: content"></div>
-
+    <div class="float-right">
+        <a class="btn btn-info m-3" th:href="@{'/task/'+ ${task.id}}">К задаче</a>
     </div>
+    <table th:if="${activity != null}" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Действие</th>
+            <th scope="col">Текущий результат</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Изображения</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <a href="/activity/${activity.id}">
+                <td scope="row" th:text="${#temporals.format(activity.date, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${activity.action}"></td>
+                <td th:text="${activity.currentResult}"></td>
+                <th th:switch="${activity.state.value}">
+                    <p th:case="'alternative'" class="text-center ph-alternative">Альтернативно</p>
+                    <p th:case="'wrong'" class="text-center ph-wrong">Не годится</p>
+                    <p th:case="'right'" class="text-center ph-right">Отличное решение</p>
+                </th>
+                <th>
+                    <div th:replace="activity/fragments/imageRow :: content"></div>
+                </th>
+                <td><a th:href="@{'/activity/edit/'+ ${activity.id}}">Редактировать</a></td>
+            </a>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 class="text-center pt-3 pb-3" th:text="@{'Все действия в задаче ' + ${task.title}}"></h3>
+    <div th:replace="activity/activityList :: content"></div>
 
 </main>
 

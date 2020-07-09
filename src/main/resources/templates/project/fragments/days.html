@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+
+    <div class="mt-3 mb-2 ph-days">
+        <div th:if="${days != null}" th:each="day : ${days}">
+            <div class="ph-day">
+                <span th:text="${#temporals.format(day, 'dd-MM-yyyy')}" class="ph-span-day" ></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

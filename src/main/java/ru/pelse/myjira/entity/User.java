@@ -35,7 +35,6 @@ public class User implements UserDetails {
     private String password;
 
     @Transient //не добавлять поле в БД
-    @NotBlank(message = "Повторите пароль")
     private String password2;
 
     public void setUsername(String username) {

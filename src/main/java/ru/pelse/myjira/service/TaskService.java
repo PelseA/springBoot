@@ -2,19 +2,25 @@ package ru.pelse.myjira.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.pelse.myjira.entity.Activity;
 import ru.pelse.myjira.entity.Project;
 import ru.pelse.myjira.entity.Task;
+import ru.pelse.myjira.repository.ActivityRepository;
 import ru.pelse.myjira.repository.ProjectRepository;
 import ru.pelse.myjira.repository.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Autowired
     private ProjectService projectService;
@@ -35,4 +41,5 @@ public class TaskService {
         );
         return taskRepository.save(task);
     }
+
 }

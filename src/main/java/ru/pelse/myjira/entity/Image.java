@@ -17,6 +17,14 @@ public class Image {
     @JoinColumn
     private Activity activity;
 
+    public Image(String path, Activity activity) {
+        this.path = path;
+        this.activity = activity;
+    }
+
+    public Image() {
+    }
+
     public int getId() {
         return id;
     }

@@ -5,18 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.pelse.myjira.entity.Activity;
-import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.entity.Project;
+import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.repository.ActivityRepository;
-import ru.pelse.myjira.repository.TaskRepository;
 import ru.pelse.myjira.repository.ProjectRepository;
+import ru.pelse.myjira.repository.TaskRepository;
 import ru.pelse.myjira.service.NoEntityException;
 import ru.pelse.myjira.service.ProjectService;
 import ru.pelse.myjira.service.TaskService;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/task")
@@ -96,6 +92,7 @@ public class TaskController {
 
     }
 
+    //todo реализовать редактирование задачи
 //    @PostMapping("/edit/{id}")
 //    public String editTask() {
 //        return "task/" + id;

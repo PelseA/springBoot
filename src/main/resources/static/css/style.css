@@ -81,6 +81,18 @@ p, h1, h2, h3, h4, h5, h6, span {
     background: #c2ff9b;
 }
 
+.ph-image-set {
+    width: 100px;
+    background: #f0f0f0;
+    padding: 2%;
+}
+
+.ph-image-set img {
+    width: 100%;
+    border-radius: 0.3rem;
+    margin-bottom: 2%;
+}
+
 .ph-footer {
     display: -webkit-flex;
     display: flex;

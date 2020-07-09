@@ -7,6 +7,7 @@ import ru.pelse.myjira.repository.ProjectRepository;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -28,15 +29,15 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public HashSet<LocalDate> getDaysFromStartToDeadline(Project project) {
+    public ArrayList<LocalDate> getDaysFromStartToDeadline(Project project) {
         if (project.getDeadline() != null) {
             long days =  ChronoUnit.DAYS.between(project.getStart(), project.getDeadline());
-            HashSet<LocalDate> daysSet= new HashSet<>();
+            ArrayList<LocalDate> daysList= new ArrayList<>();
             //в сет положим даты с  deadline до сегодняшней включительно
-            for (long i = days; i >= 0; i--) {
-                daysSet.add(project.getStart().plusDays(i));
+            for (long i = 0; i <= days; i++) {
+                daysList.add(project.getStart().plusDays(i));
             }
-            return daysSet;
+            return daysList;
         }
         return null;
     }

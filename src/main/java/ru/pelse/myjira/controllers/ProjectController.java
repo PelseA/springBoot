@@ -15,7 +15,6 @@ import ru.pelse.myjira.service.ProjectService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 @Controller
 @RequestMapping("/project")
@@ -34,25 +33,7 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-//    public String addProject(
-//            @AuthenticationPrincipal User user,
-//            @RequestParam String title,
-//            @RequestParam String description,
-//            @RequestParam(required = false) String deadline,
-//            Model model) {
-//        Project project = new Project(title, description, user);
-//        if (deadline != null) project.setDeadline(deadline);
-//        projectRepository.save(project);
-//
-//        return "redirect:/profile";
-//    }
-    public String addProject(
-            @AuthenticationPrincipal User user,
-            Project project,
-            Model model) {
-        //project.setTitle(project.getTitle());
-        //project.setDescription(project.getDescription());
-        //if (deadline != null) project.setDeadline(deadline);
+    public String addProject(@AuthenticationPrincipal User user, Project project) {
         project.setUser(user);
         project.setStart(LocalDate.now());
         projectRepository.save(project);
@@ -65,7 +46,7 @@ public class ProjectController {
         ArrayList<Task> tasks = (ArrayList) taskRepository.findByProjectId(Integer.parseInt(id));
         try {
             Project project = projectService.getProjectById(id);
-            HashSet<LocalDate> days = projectService.getDaysFromStartToDeadline(project);
+            ArrayList<LocalDate> days = projectService.getDaysFromStartToDeadline(project);
             if (days != null) {
                 model.addAttribute("days", days);
             }

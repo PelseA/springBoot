@@ -2,7 +2,6 @@
 <body>
 <div th:fragment="content">
 
-    <h3 class="text-center pt-3 pb-3" th:text="@{'Текущие действия в задаче ' + ${task.title}}"></h3>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -10,22 +9,25 @@
             <th scope="col">Действие</th>
             <th scope="col">Текущий результат</th>
             <th scope="col">Статус</th>
+            <th scope="col">Изображения</th>
             <th scope="col">Сделать запись</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${activity != null}" th:each="activity : ${activities}">
             <a href="/activity/${activity.id}">
-                <td scope="row" th:text="${activity.date}"></td>
+                <td scope="row" th:text="${#temporals.format(activity.date, 'dd-MM-yyyy HH:mm')}"></td>
                 <td th:text="${activity.action}"></td>
                 <td th:text="${activity.currentResult}"></td>
-
                 <th th:switch="${activity.state.value}">
                     <p th:case="'alternative'" class="text-center ph-alternative">Альтернативно</p>
                     <p th:case="'wrong'" class="text-center ph-wrong">Не годится</p>
                     <p th:case="'right'" class="text-center ph-right">Отличное решение</p>
                 </th>
-                <td><a th:href="@{'/activity/'+ ${activity.id}}">Редактировать</a></td>
+                <th>
+                    <div th:replace="activity/fragments/imageRow :: content"></div>
+                </th>
+                <td><a th:href="@{'/activity/'+ ${activity.id}}">Выбрать</a></td>
             </a>
         </tr>
         </tbody>
