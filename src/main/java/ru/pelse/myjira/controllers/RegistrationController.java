@@ -24,6 +24,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@RequestParam String password,
                           @RequestParam String password2,
+                          @RequestParam(required = false) String birth,
                           User user,
                           Model model) {
         if (!password.equals(password2)) {
@@ -31,13 +32,20 @@ public class RegistrationController {
             model.addAttribute("user", user);
             return "registration";
         }
+        if (birth != null) {
+            //todo проверка возраста, например с 6 лет
+            System.out.println(birth);
+        }
         //если не смогли добавить пользователя => пользователь существует
-        if (!userService.addUser(user)) {
+        User savedUser = userService.addUser(user);
+        if (savedUser == null) {
             model.addAttribute("userExists", "Этот email уже зарегистрирован");
             return "registration";
         }
-
-        return "redirect:/confirm";
+        String email = savedUser.getUsername();
+        model.addAttribute("confirm", "На электронную почту " + email + " было отправлено письмо. \r" +
+                " Подтвердите, пожалуйста, регистрацию, перейдя по ссылке в письме.");
+        return "login";
     }
 
     //пользователь подтверждает регистрацию переходя по ссылке из письма
@@ -53,11 +61,6 @@ public class RegistrationController {
         }
 
         return "login";
-    }
-
-    @GetMapping("/confirm")
-    public String confirmRegistration() {
-        return "confirmRegistration";
     }
 
 }

@@ -37,10 +37,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(email);
     }
 
-    public boolean addUser(User user) {
+    public User addUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
-            return false; //проверка в RegistrationController на false
+            return null; //проверка в RegistrationController на false
         }
 
         System.out.println("Пользователь не найден, регистрируем");
@@ -53,8 +53,7 @@ public class UserService implements UserDetailsService {
         user.setLastname(user.getLastname());
         user.setBirth(user.getBirth());
         user.setPhone(user.getPhone());
-        System.out.println("Перед соханением пользоателя в бд");
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         if (!StringUtils.isEmpty(user.getUsername())) {
             String message = String.format(
@@ -66,7 +65,7 @@ public class UserService implements UserDetailsService {
             );
             mailSender.send(user.getUsername(), "Activation code", message);
         }
-        return true;
+        return savedUser;
     }
 
     public boolean activateUser(String code) {

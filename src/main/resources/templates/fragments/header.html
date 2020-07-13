@@ -5,7 +5,8 @@
         <a class="navbar-brand" href="/">
             <img class="ph-logo" src="/img/logo/logotype.png" alt="logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -14,16 +15,33 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a th:if="${#request.userPrincipal == null}" class="nav-link text-dark" th:href="@{/login}">Личный
+                        кабинет</a>
+                    <a th:if="${#request.userPrincipal != null}" class="nav-link text-dark" th:href="@{/profile}">Личный
+                        кабинет</a>
                 </li>
                 <li class="nav-item">
-                    <a th:if="${#request.userPrincipal == null}" class="nav-link text-dark" th:href="@{/login}">Личный кабинет</a>
-                    <a th:if="${#request.userPrincipal != null}" class="nav-link text-dark" th:href="@{/profile}">Личный кабинет</a>
+                    <a th:if="${#request.userPrincipal != null}" class="nav-link text-dark"
+                       th:href="@{/logout}">Выйти</a>
+                    <a th:if="${#request.userPrincipal == null}" class="nav-link text-warning"
+                       th:href="@{/registration}">Регистрация</a>
                 </li>
                 <li class="nav-item">
-                    <a th:if="${#request.userPrincipal != null}" class="nav-link text-dark" th:href="@{/logout}">Выйти</a>
-                    <a th:if="${#request.userPrincipal == null}" class="nav-link text-warning" th:href="@{/registration}">Регистрация</a>
+                    <a th:if="${#request.userPrincipal == null}" th:href="@{/oauth2/authorization/github}" class="unauthenticated nav-link text-info">Войти с GitHub</a>
+                    <a th:if="${#request.userPrincipal == null}" th:href="@{/oauth2/authorization/google}" class="unauthenticated nav-link text-info">Войти с Google</a>
+                    <a class="authenticated nav-link disabled" style="display:none">
+                        Вы вошли как <span id="user"></span>
+                        <span th:text="${firstName}"></span>
+                    </a>
+                    <script type="text/javascript">
+                        $.get("/user", function(data) {
+                            $("#user").html(data.name);
+                            $(".unauthenticated").hide()
+                            $(".authenticated").show()
+                        });
+                    </script>
                 </li>
+
             </ul>
         </div>
     </nav>
