@@ -29,11 +29,11 @@ public class Activity {
     @JoinColumn
     private State state;
 
-    @OneToMany(mappedBy = "activity") // поле в классе Image
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY) // поле в классе Image
     private List<Image> images = new ArrayList<>();
 
     //в одной задаче несколько действий(activity)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
     private Task task;
 

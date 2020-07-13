@@ -1,13 +1,16 @@
 package ru.pelse.myjira.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.pelse.myjira.entity.Activity;
 import ru.pelse.myjira.entity.Project;
 import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.entity.User;
+import ru.pelse.myjira.repository.ActivityRepository;
 import ru.pelse.myjira.repository.ProjectRepository;
 import ru.pelse.myjira.repository.TaskRepository;
 import ru.pelse.myjira.service.NoEntityException;
@@ -15,6 +18,9 @@ import ru.pelse.myjira.service.ProjectService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/project")
@@ -23,6 +29,8 @@ public class ProjectController {
     private ProjectRepository projectRepository;
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
     @Autowired
     private ProjectService projectService;
 
@@ -46,9 +54,10 @@ public class ProjectController {
         ArrayList<Task> tasks = (ArrayList) taskRepository.findByProjectId(Integer.parseInt(id));
         try {
             Project project = projectService.getProjectById(id);
-            ArrayList<LocalDate> days = projectService.getDaysFromStartToDeadline(project);
-            if (days != null) {
-                model.addAttribute("days", days);
+            //ArrayList<LocalDate> days = projectService.getDaysFromStartToDeadline(project);
+            TreeMap<LocalDate, String> checkedActiveDays = projectService.getCheckedActiveDays(project);
+            if (checkedActiveDays != null) {
+                model.addAttribute("days", checkedActiveDays);
             }
             model.addAttribute("project", project);
             model.addAttribute("tasks", tasks);
@@ -75,19 +84,19 @@ public class ProjectController {
         }
     }
 
+    //todo перенести его в сервис
     @PostMapping("/edit/{id}")
-    public String editProject(@PathVariable("id") String id,
-                              @RequestParam String title,
-                              @RequestParam String description,
-                              Model model) {
-        try {
-            Project savedProject = projectService.editProject(id, title, description);
-            return project(String.valueOf(savedProject.getId()), model);
-        } catch (NoEntityException e) {
-            e.printStackTrace();
-            model.addAttribute("errorText", "Не удалось редактировать проект");
-            return "error";
-        }
+    public String editProject(@AuthenticationPrincipal User user, Project project,
+                              @PathVariable String id,
+                              Model model) throws NoEntityException {
+            project.setId(Integer.parseInt(id));
+            project.setUser(user);
+            project.setStart(projectService.getProjectById(id).getStart());
+            Project savedProject = projectRepository.save(project);
+            return "redirect:/project/" + savedProject.getId();
+//            return project(String.valueOf(savedProject.getId()), model);
     }
+
+
 
 }

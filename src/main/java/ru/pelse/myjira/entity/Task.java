@@ -22,10 +22,10 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd' в 'HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateCreate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd' в 'HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateClose;
 
     public Task(String title, String description, LocalDateTime dateCreate, Project project) {
@@ -39,11 +39,11 @@ public class Task {
     }
 
     //в одном проекте несколько задач
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
     private Project project;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
     private List<Activity> activities = new ArrayList<>();
 
     public int getId() {

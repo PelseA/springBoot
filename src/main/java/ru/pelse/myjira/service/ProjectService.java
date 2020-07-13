@@ -1,20 +1,27 @@
 package ru.pelse.myjira.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
+import ru.pelse.myjira.entity.Activity;
 import ru.pelse.myjira.entity.Project;
+import ru.pelse.myjira.entity.Task;
+import ru.pelse.myjira.entity.User;
+import ru.pelse.myjira.repository.ActivityRepository;
 import ru.pelse.myjira.repository.ProjectRepository;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     public Project getProjectById(String id) throws NoEntityException {
         return projectRepository
@@ -22,14 +29,18 @@ public class ProjectService {
                 .orElseThrow(() -> new NoEntityException(id));
     }
 
-    public Project editProject(String projectId, String title, String description) throws NoEntityException {
+    public Project editProject(String projectId,
+                               String title,
+                               String description,
+                               LocalDate deadline) throws NoEntityException {
         Project project = this.getProjectById(projectId);
         project.setTitle(title);
         project.setDescription(description);
+        project.setDeadline(deadline);
         return projectRepository.save(project);
     }
 
-    public ArrayList<LocalDate> getDaysFromStartToDeadline(Project project) {
+    private ArrayList<LocalDate> getDaysFromStartToDeadline(Project project) {
         if (project.getDeadline() != null) {
             long days =  ChronoUnit.DAYS.between(project.getStart(), project.getDeadline());
             ArrayList<LocalDate> daysList= new ArrayList<>();
@@ -38,6 +49,31 @@ public class ProjectService {
                 daysList.add(project.getStart().plusDays(i));
             }
             return daysList;
+        }
+        return null;
+    }
+
+    public TreeMap<LocalDate, String> getCheckedActiveDays(Project project) {
+        ArrayList<LocalDate> daysList = this.getDaysFromStartToDeadline(project);
+        if (daysList != null) {
+            List<Activity> allActivitiesInProject = activityRepository.findByProjectId(project.getId());
+            ArrayList<LocalDate> activeDays = new ArrayList<>();
+
+            for (Activity activity: allActivitiesInProject) {
+                activeDays.add(activity.getDate().toLocalDate());
+            }
+
+            TreeMap<LocalDate, String> checkedActiveDays = new TreeMap<>();
+            for (LocalDate day: daysList) {
+                for (LocalDate activeDay: activeDays) {
+                    if (day.equals(activeDay)) {
+                        checkedActiveDays.put(day, "ph-done");
+                    } else {
+                        checkedActiveDays.put(day, "");
+                    }
+                }
+            }
+            return checkedActiveDays;
         }
         return null;
     }

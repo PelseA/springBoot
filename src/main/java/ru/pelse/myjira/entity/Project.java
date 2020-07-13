@@ -28,6 +28,7 @@ public class Project {
     private String description;
 
     private LocalDate start;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate deadline;
 
     //несколько проектов у одного пользователя
@@ -35,10 +36,10 @@ public class Project {
     @JoinColumn
     private User user;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<Task> tasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private List<Subscriber> subscribers = new ArrayList<>();
 
     public Project() {

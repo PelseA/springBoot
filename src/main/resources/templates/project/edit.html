@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/header :: content"></div>
 <main>
-    <form th:if="${project != null}" th:action="@{'/project/edit/' + ${project.id}}" method="post">
+    <form class="pt-3 mb-3 ph-centre" th:if="${project != null}" th:action="@{'/project/edit/' + ${project.id}}" method="post">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Название проекта</label>
             <div class="col-sm-6">
@@ -20,6 +20,23 @@
                 <textarea th:text="${project.description}" required class="form-control" name="description"></textarea>
             </div>
         </div>
+
+        <!--    календарь    -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Планируете сделать к: </label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="deadline" id="datepicker"/>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+                $( document ).ready(function() {
+                $("#datepicker").datepicker();
+                });
+            /*]]>*/
+
+        </script>
 
         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
     </form>
