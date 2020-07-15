@@ -1,19 +1,18 @@
 package ru.pelse.myjira.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 import ru.pelse.myjira.entity.Activity;
 import ru.pelse.myjira.entity.Project;
-import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.entity.User;
 import ru.pelse.myjira.repository.ActivityRepository;
 import ru.pelse.myjira.repository.ProjectRepository;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 @Service
 public class ProjectService {
@@ -27,17 +26,6 @@ public class ProjectService {
         return projectRepository
                 .findById(Integer.parseInt(id))
                 .orElseThrow(() -> new NoEntityException(id));
-    }
-
-    public Project editProject(String projectId,
-                               String title,
-                               String description,
-                               LocalDate deadline) throws NoEntityException {
-        Project project = this.getProjectById(projectId);
-        project.setTitle(title);
-        project.setDescription(description);
-        project.setDeadline(deadline);
-        return projectRepository.save(project);
     }
 
     private ArrayList<LocalDate> getDaysFromStartToDeadline(Project project) {
@@ -78,5 +66,11 @@ public class ProjectService {
         return null;
     }
 
+    public Project editProject(User user, Project project, String id) throws NoEntityException {
+        project.setId(Integer.parseInt(id));
+        project.setUser(user);
+        project.setStart(this.getProjectById(id).getStart());
+        return projectRepository.save(project);
+    }
 
 }

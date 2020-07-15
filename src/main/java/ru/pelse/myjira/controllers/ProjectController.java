@@ -84,17 +84,13 @@ public class ProjectController {
         }
     }
 
-    //todo перенести его в сервис
     @PostMapping("/edit/{id}")
     public String editProject(@AuthenticationPrincipal User user, Project project,
                               @PathVariable String id,
                               Model model) throws NoEntityException {
-            project.setId(Integer.parseInt(id));
-            project.setUser(user);
-            project.setStart(projectService.getProjectById(id).getStart());
-            Project savedProject = projectRepository.save(project);
-            return "redirect:/project/" + savedProject.getId();
-//            return project(String.valueOf(savedProject.getId()), model);
+        Project editProject = projectService.editProject(user, project, id);
+        return "redirect:/project/" + editProject.getId();
+//            return project(String.valueOf(editProject.getId()), model);
     }
 
 
