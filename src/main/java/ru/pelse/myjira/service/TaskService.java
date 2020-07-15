@@ -6,13 +6,12 @@ import ru.pelse.myjira.entity.Activity;
 import ru.pelse.myjira.entity.Project;
 import ru.pelse.myjira.entity.Task;
 import ru.pelse.myjira.repository.ActivityRepository;
-import ru.pelse.myjira.repository.ProjectRepository;
 import ru.pelse.myjira.repository.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -41,5 +40,14 @@ public class TaskService {
         );
         return taskRepository.save(task);
     }
+
+    public Task editTask(String taskId, String title, String description) throws NoEntityException {
+        Task task = this.getTaskById(taskId);
+        task.setDescription(description);
+        task.setTitle(title);
+        return taskRepository.save(task);
+    }
+
+
 
 }

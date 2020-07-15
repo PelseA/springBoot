@@ -92,9 +92,18 @@ public class TaskController {
 
     }
 
-    //todo реализовать редактирование задачи
-//    @PostMapping("/edit/{id}")
-//    public String editTask() {
-//        return "task/" + id;
-//    }
+    @PostMapping("/edit/{id}")
+    public String editTask(@PathVariable String id,
+                           @RequestParam String title,
+                           @RequestParam String description) {
+        try {
+            Task editTask = taskService.editTask(id, title, description);
+        } catch (NoEntityException e) {
+            e.printStackTrace();
+            //todo писать в log из какого метода и время
+            System.out.println("Не удалось редактировать задачу");
+            return "error";
+        }
+        return "redirect:/task/" + id;
+    }
 }
