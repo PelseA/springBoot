@@ -1,6 +1,7 @@
 package ru.pelse.myjira.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.pelse.myjira.entity.User;
 import ru.pelse.myjira.service.UserService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 public class RegistrationController {
     @Autowired
     private UserService userService;
+
+    @Value("${ph.min-age}")
+    private int minAge;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -33,8 +40,13 @@ public class RegistrationController {
             return "registration";
         }
         if (birth != null) {
-            //todo проверка возраста, например с 6 лет
-            System.out.println(birth);
+            //minAge from properties
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+            LocalDate birthFromString = LocalDate.parse(birth, dtf);
+            if ((LocalDate.now().getYear() - birthFromString.getYear()) < this.minAge) {
+                model.addAttribute("ageValidation", "Извините, регистрация для людей старше "+ this.minAge + " лет");
+                return "registration";
+            }
         }
         //если не смогли добавить пользователя => пользователь существует
         User savedUser = userService.addUser(user);

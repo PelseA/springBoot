@@ -78,7 +78,14 @@ p, h1, h2, h3, h4, h5, h6, span {
     padding: 0.5rem;
     border: 0.5px solid gray;
     border-radius: 0.3rem;
-    background: #c2ff9b;
+    background: #d4ffb9;
+}
+
+.ph-done {
+    color: red;
+    border-radius: 0.2rem;
+    font-weight: 600;
+    background: #e1ffce;
 }
 
 .ph-image-set {

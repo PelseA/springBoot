@@ -54,6 +54,7 @@
             <label class="col-sm-2 col-form-label">Дата рождения: </label>
             <div class="col-sm-6">
                 <input type="text" class="form-control" name="birth" id="datepicker"/>
+                <small class="text-error" th:if="${ageValidation}" th:text="${ageValidation}"></small>
             </div>
         </div>
 
